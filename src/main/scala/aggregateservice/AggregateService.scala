@@ -1,6 +1,6 @@
 package aggregateservice
 
-import aggregateservice.actions._
+import aggregateservice.scala.actions._
 import akka.actor.{Actor, ActorLogging}
 import spray.json.DefaultJsonProtocol._
 
@@ -30,7 +30,9 @@ class AggregateService extends Actor with ActorLogging {
   }
 
   def doAggregate(function: String, values: String, valueType: String): AggregateResponse = {
-    valueType match {
+    try
+    {
+       valueType match {
       case "long"   =>
         val longAction = new AggregateActionLong
         function match {
@@ -42,7 +44,7 @@ class AggregateService extends Actor with ActorLogging {
       case "double" =>
         val doubleAction = new AggregateActionDouble
         function match {
-          case "sum"  => AggregateResponse(Some(Result(doubleAction.sum(values).toString)), None)
+          case "sum"  => AggregateResponse(Some(Result(doubleAction.sum(values).toString)), None) 
           case "mean" => AggregateResponse(Some(Result(doubleAction.mean(values).toString)), None)
           case "max"  => AggregateResponse(Some(Result(doubleAction.max(values).toString)), None)
           case other  => AggregateResponse(None, Some(Error(s"Received unknown aggregate function: $other")))
@@ -50,5 +52,12 @@ class AggregateService extends Actor with ActorLogging {
       case other    =>
         AggregateResponse(None, Some(Error(s"Received unknown value type: $other")))
       }
+    }
+    catch
+    {
+      case exception: Exception => {
+          AggregateResponse(None, Some(Error(exception.getMessage)))
+      }
+    }
   }
 }

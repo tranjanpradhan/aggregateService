@@ -10,3 +10,6 @@ trait AggregateAction {
   def max(values:String):AnyVal
 
 }
+
+
+

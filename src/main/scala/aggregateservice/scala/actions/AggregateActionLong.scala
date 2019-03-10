@@ -14,4 +14,18 @@ class AggregateActionLong extends AggregateAction{
       }
        result.getOrElse(0:Long)
     }
+    
+    
+    def mean(values:String):AnyVal=
+  {
+   0
+  
+    
+  }
+  
+  //Q) What should be the default value of max function ?
+  def max(values:String):AnyVal=
+  {
+    0
+  }
 }
