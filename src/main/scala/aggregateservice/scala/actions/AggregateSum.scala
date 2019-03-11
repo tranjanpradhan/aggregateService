@@ -72,4 +72,38 @@ class AggregateSum extends AggregateSumAction {
       logger.info(s"Sum for long values is [" + sum + "] and total number of elements are [" + size + "].")
       (sum, size)
     }
+  
+  def doSumBigDecimalValues(values: Array[String]): (BigDecimal, Integer) =
+    {
+      var sum: BigDecimal = 0.0
+      var size = 0
+      var num: String = ""
+      try {
+
+        for (n <- values) {
+
+          if (n.trim.endsWith("d") || n.trim.endsWith("D")) {
+            num = n.trim().dropRight(1)
+          } else {
+            num = n
+          }
+
+          /*if (BigDecimal(num) > BigDecimal(Double.MaxValue)) {
+            throw new NumberTooLargeException(num + ": value is too large for double data type.")
+          } else if (BigDecimal(num) < BigDecimal(Double.MinValue)) {
+            throw new NumberTooSmallException(num + ": value is too small for double data type.")
+          }*/
+
+          logger.debug(s"BigDecimal Value to be added:-[" + num + "].")
+          sum = sum + BigDecimal(num)
+          logger.debug(s"Current sum is:-[" + sum + "].")
+          size = size + 1
+          logger.debug(s"Number of elements traversed are:-[" + size + "].")
+        }
+      } catch {
+        case exception: NumberFormatException => { throw new NumberFormatException("String [" + values(size) + "] cannot be parsed to BigDecimal.") }
+      }
+      logger.info(s"Sum for bigdecimal values is [" + sum + "] and total number of elements are [" + size + "].")
+      (sum, size)
+    }
 }

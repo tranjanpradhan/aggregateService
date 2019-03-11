@@ -74,5 +74,13 @@ class aggregateActionLongTest extends FunSuite with BeforeAndAfter {
     }
     assert(thrown.getMessage === BigInt("-92233720368547758098") + ": value is too small for long data type.")
   }
+  
+  test("sum function for long should throw exception if the string is not ending with \"l\" or \"L\"") {
+    val thrown = intercept[Exception] {
+      val sum = aggregateActionLong.sum("7.5f, 14.5F, 5")
+    }
+    assert(thrown.getMessage === "String [7.5f] cannot be parsed to long.")
+  }
+
 
 }

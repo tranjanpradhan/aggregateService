@@ -77,5 +77,12 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
     }
     assert(thrown.getMessage === BigDecimal("-21.7976931348623157E+308") + ": value is too small for double data type.")
   }
+  
+   test("sum function for double should throw exception if the string is not ending with \"d\" or \"D\"") {
+    val thrown = intercept[Exception] {
+      val sum = aggregateActionDouble.sum("7.5f, 14.5F, 5")
+    }
+    assert(thrown.getMessage === "String [7.5f] cannot be parsed to double.")
+  }
 
 }
