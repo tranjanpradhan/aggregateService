@@ -21,6 +21,14 @@ class AggregateActionDouble extends AggregateAction {
           logger.error(numberFormatException.printStackTrace())
           throw numberFormatException
         }
+        case numberTooLargeException: NumberTooLargeException  => {
+          logger.error(numberTooLargeException.printStackTrace())
+          throw numberTooLargeException
+        }
+        case numberTooSmallException: NumberTooSmallException  => {
+          logger.error(numberTooSmallException.printStackTrace())
+          throw numberTooSmallException
+        }
         case exception: Exception => { 
           logger.error(exception.printStackTrace())
           throw new Exception("Exception occured while parsing string ["+values+"].") }
