@@ -77,12 +77,77 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
     }
     assert(thrown.getMessage === BigDecimal("-21.7976931348623157E+308") + ": value is too small for double data type.")
   }
-  
-   test("sum function for double should throw exception if the string is not ending with \"d\" or \"D\"") {
+
+  test("sum function for double should throw exception if the string is not ending with \"d\" or \"D\"") {
     val thrown = intercept[Exception] {
       val sum = aggregateActionDouble.sum("7.5f, 14.5F, 5")
     }
     assert(thrown.getMessage === "String [7.5f] cannot be parsed to double.")
   }
 
+  //Unit test cases for mean function
+  test("mean function for double should return the string itself if it has only one element") {
+    val mean = aggregateActionDouble.mean("12.0")
+    assert(mean.isInstanceOf[Double] & mean == 12.0)
+  }
+
+  test("mean function for double should identify the negative numbers and compute the mean") {
+    val mean = aggregateActionDouble.mean("12.0, -13.00, 20.00")
+    assert(mean.isInstanceOf[Double] & mean == 6.333333333333333)
+  }
+
+  test("mean function for double should compute mean for fractions") {
+    val mean = aggregateActionDouble.mean("2.5, -1.05, 123.96")
+    assert(mean.isInstanceOf[Double] & mean == 41.803333333333335)
+  }
+
+  test("mean function for double should identify double and compute sum of Double type") {
+    val mean = aggregateActionDouble.mean("2, 3, 5")
+    assert(mean == 3.3333333333333335 & mean.isInstanceOf[Double])
+  }
+
+  test("mean function for double should identify the string ending with \"d\" and compute mean of Double type") {
+    val mean = aggregateActionDouble.mean("7.8d, 123, 5")
+    assert(mean == 45.26666666666667 & mean.isInstanceOf[Double])
+  }
+
+  test("mean function for double should identify the string ending with \"D\" and compute mean of Double type") {
+    val mean = aggregateActionDouble.mean("7.8D, 123, 5")
+    assert(mean == 45.26666666666667 & mean.isInstanceOf[Double])
+  }
+
+  test("mean function for double should throw exception when strings have no numbers") {
+    val thrown = intercept[NumberFormatException] {
+      aggregateActionDouble.mean("test1, test2, test3")
+    }
+    assert(thrown.getMessage === "String [test1] cannot be parsed to double.")
+  }
+
+  test("mean function for double should throw exception when passed empty strings") {
+    val thrown = intercept[Exception] {
+      aggregateActionDouble.mean("")
+    }
+    assert(thrown.getMessage === "String [] cannot be parsed to double.")
+  }
+
+  test("mean function for double should throw exception when numbers are greater than max value of double") {
+    val thrown = intercept[NumberTooLargeException] {
+      aggregateActionDouble.mean(BigDecimal("2.7976931348623157E+308") + ", 2.0, 5.9")
+    }
+    assert(thrown.getMessage === BigDecimal("2.7976931348623157E+308") + ": value is too large for double data type.")
+  }
+  test("mean function for double should throw exception when numbers are lesser than min value of double") {
+    val thrown = intercept[NumberTooSmallException] {
+      aggregateActionDouble.mean(BigDecimal("-21.7976931348623157E+308") + ", 0.0, 5.9")
+    }
+    assert(thrown.getMessage === BigDecimal("-21.7976931348623157E+308") + ": value is too small for double data type.")
+  }
+  
+  test("mean function for double should throw exception if the string is not ending with \"d\" or \"D\"") {
+    val thrown = intercept[Exception] {
+      val mean = aggregateActionDouble.sum("7.5f, 14.5F, 5")
+    }
+    assert(thrown.getMessage === "String [7.5f] cannot be parsed to double.")
+  }
+  
 }

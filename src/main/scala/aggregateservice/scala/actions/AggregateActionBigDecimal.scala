@@ -28,28 +28,30 @@ class AggregateActionBigDecimal extends AggregateAction {
       }
     }
 
-  //Q) What should be the default value of mean function ?
-
-  def mean(values: String): AnyVal =
+ @throws(classOf[Exception])
+  def mean(values: String): Any =
     {
-      var mean = None: Option[Double]
-
-      val result = sum(values).asInstanceOf[Double]
-
-      var size = 0
-
-      val numbers = values.split(", ")
-
-      for (n <- numbers) {
-        var num = allCatch.opt(n.toDouble)
-
-        if (num != None) {
-          size = size + 1
+      logger.info(s"String for which mean needs to be calculated ["+values+"].")
+      var numbers: Array[String] = null
+      var mean:BigDecimal=0.0d
+      try {
+        numbers = values.split(", ")
+        val sumDetails = aggregateSum.doSumBigDecimalValues(numbers)
+        mean=sumDetails._1/BigDecimal(sumDetails._2)
+        logger.info(s"Mean for ["+values+"] is" + mean + ".")
+        mean
+      } catch {
+        case numberFormatException: NumberFormatException  => {
+          logger.error(numberFormatException.printStackTrace())
+          throw numberFormatException
         }
+        case arithmeticException:ArithmeticException => {
+          logger.error(arithmeticException.printStackTrace())
+         throw new ArithmeticException("Exception occured while computing mean.") }
+        case exception: Exception => { 
+          logger.error(exception.printStackTrace())
+          throw new Exception("Exception occured while parsing string ["+values+"].") }
       }
-
-      allCatch.opt(result / size).getOrElse(0.0: Double)
-
     }
 
   //Q) What should be the default value of max function ?

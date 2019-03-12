@@ -5,9 +5,9 @@ trait AggregateAction {
   //We expect default return value of zero for sum function 
   def sum(values:String):Any
  
-  def mean(values:String):AnyVal
+  def mean(values:String):Any
   
-  def max(values:String):AnyVal
+  def max(values:String):Any
 
 }
 
