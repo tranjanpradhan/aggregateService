@@ -23,4 +23,6 @@ libraryDependencies += "log4j" % "log4j" % "1.2.14"
 libraryDependencies ++= Seq(
    "junit" % "junit" % "4.8.1" % "test"
 )
+libraryDependencies += "org.mockito" % "mockito-core" % "2.7.19" % Test
+
 seq(Revolver.settings: _*)

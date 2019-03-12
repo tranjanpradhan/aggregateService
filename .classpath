@@ -101,6 +101,26 @@
     </attributes>
   </classpathentry>
   <classpathentry sourcepath="C:\Users\Kaodim\.ivy2\cache\junit\junit\srcs\junit-4.8.1-sources.jar" kind="lib" path="C:\Users\Kaodim\.ivy2\cache\junit\junit\jars\junit-4.8.1.jar"/>
+  <classpathentry sourcepath="C:\Users\Kaodim\.ivy2\cache\org.mockito\mockito-core\srcs\mockito-core-2.7.19-sources.jar" kind="lib" path="C:\Users\Kaodim\.ivy2\cache\org.mockito\mockito-core\jars\mockito-core-2.7.19.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:C:\Users\Kaodim\.ivy2\cache\org.mockito\mockito-core\docs\mockito-core-2.7.19-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="C:\Users\Kaodim\.ivy2\cache\net.bytebuddy\byte-buddy\srcs\byte-buddy-1.6.11-sources.jar" kind="lib" path="C:\Users\Kaodim\.ivy2\cache\net.bytebuddy\byte-buddy\jars\byte-buddy-1.6.11.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:C:\Users\Kaodim\.ivy2\cache\net.bytebuddy\byte-buddy\docs\byte-buddy-1.6.11-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="C:\Users\Kaodim\.ivy2\cache\net.bytebuddy\byte-buddy-agent\srcs\byte-buddy-agent-1.6.11-sources.jar" kind="lib" path="C:\Users\Kaodim\.ivy2\cache\net.bytebuddy\byte-buddy-agent\jars\byte-buddy-agent-1.6.11.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:C:\Users\Kaodim\.ivy2\cache\net.bytebuddy\byte-buddy-agent\docs\byte-buddy-agent-1.6.11-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="C:\Users\Kaodim\.ivy2\cache\org.objenesis\objenesis\srcs\objenesis-2.5-sources.jar" kind="lib" path="C:\Users\Kaodim\.ivy2\cache\org.objenesis\objenesis\jars\objenesis-2.5.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:C:\Users\Kaodim\.ivy2\cache\org.objenesis\objenesis\docs\objenesis-2.5-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="output" path="bin"/>
 </classpath>

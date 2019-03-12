@@ -54,7 +54,7 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
     val thrown = intercept[NumberFormatException] {
       aggregateActionDouble.sum("test1, test2, test3")
     }
-    assert(thrown.getMessage === "String [test1] cannot be parsed to double.")
+    assert(thrown.getMessage === "String [test18] cannot be parsed to double.")
   }
 
   test("sum function for double should throw exception when passed empty strings") {
@@ -145,7 +145,88 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
   
   test("mean function for double should throw exception if the string is not ending with \"d\" or \"D\"") {
     val thrown = intercept[Exception] {
-      val mean = aggregateActionDouble.sum("7.5f, 14.5F, 5")
+      val mean = aggregateActionDouble.max("7.5f, 14.5F, 5")
+    }
+    assert(thrown.getMessage === "String [7.5f] cannot be parsed to double.")
+  }
+  
+  //Unit test cases for max function
+  test("max function for double should return the string itself if it has only one element") {
+    val max = aggregateActionDouble.max("12.0")
+    assert(max.isInstanceOf[Double] & max == 12.0)
+  }
+  
+  test("max function for double should identify the negative numbers and compute the max") {
+    val max = aggregateActionDouble.max("12.0, -13.00, 20.00")
+    assert(max.isInstanceOf[Double] & max == 20.00)
+  }
+  
+  test("max function for double should compute max for fractions") {
+    val max = aggregateActionDouble.max("2.5, -1.05, 123.96")
+    assert(max.isInstanceOf[Double] & max == 123.96)
+  }
+  
+   test("max function for double should identify the max value when some numbers are repeated") {
+    val max = aggregateActionDouble.max("2.0, -1.00, -123.96 ,2.0")
+    assert(max.isInstanceOf[Double] & max == 2.0)
+  }
+   
+    test("max function for double should identify the string ending with \"d\" and compute max of Double type") {
+    val max = aggregateActionDouble.max("7.8d, 123, 5")
+    assert(max == 123 & max.isInstanceOf[Double])
+  }
+
+  test("max function for double should identify the string ending with \"D\" and compute max of Double type") {
+    val max = aggregateActionDouble.max("7.8D, 123, 5")
+    assert(max == 123 & max.isInstanceOf[Double])
+  }
+
+  test("max function for double should identify the max value of double") {
+    val max = aggregateActionDouble.max(Double.MaxValue+", 123, 5")
+    assert(max == Double.MaxValue & max.isInstanceOf[Double])
+  }
+  
+  test("max function for double should identify the max value of double") {
+    val max = aggregateActionDouble.max(Double.MaxValue+", 123, 5")
+    assert(max == Double.MaxValue & max.isInstanceOf[Double])
+  }
+  
+  test("max function for double should return infinity") {
+    val max = aggregateActionDouble.max(Double.MaxValue+", "+Double.PositiveInfinity+", 5")
+    assert(max == Double.PositiveInfinity & max.isInstanceOf[Double])
+  }
+
+  test("max function for double should throw exception when strings have no numbers") {
+    val thrown = intercept[NumberFormatException] {
+      aggregateActionDouble.max("test1, test2, test3")
+    }
+    assert(thrown.getMessage === "String [test1] cannot be parsed to double.")
+  }
+  
+  test("max function for double should throw exception when passed empty strings") {
+    val thrown = intercept[Exception] {
+      aggregateActionDouble.max("")
+    }
+    assert(thrown.getMessage === "String [] cannot be parsed to double.")
+  }
+  
+  test("max function for double should throw exception when numbers are greater than max value of double") {
+    val thrown = intercept[NumberTooLargeException] {
+      aggregateActionDouble.max(BigDecimal("2.7976931348623157E+308") + ", 2.0, 5.9")
+    }
+    assert(thrown.getMessage === BigDecimal("2.7976931348623157E+308") + ": value is too large for double data type.")
+  }
+  
+  test("max function for double should throw exception when numbers are lesser than min value of double") {
+    val thrown = intercept[NumberTooSmallException] {
+      aggregateActionDouble.max(BigDecimal("-21.7976931348623157E+308") + ", 0.0, 5.9")
+    }
+    assert(thrown.getMessage === BigDecimal("-21.7976931348623157E+308") + ": value is too small for double data type.")
+  }
+  
+  test("max function for double should throw exception if the string is not ending with \"d\" or \"D\"") {
+    val thrown = intercept[Exception] {
+      val max = aggregateActionDouble.max("7.5f, 14.5F, 5")
     }
     assert(thrown.getMessage === "String [7.5f] cannot be parsed to double.")
   }

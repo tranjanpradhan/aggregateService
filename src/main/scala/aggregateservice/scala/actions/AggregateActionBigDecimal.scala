@@ -28,36 +28,69 @@ class AggregateActionBigDecimal extends AggregateAction {
       }
     }
 
- @throws(classOf[Exception])
-  def mean(values: String): Any =
+  @throws(classOf[Exception])
+  def mean(values: String): BigDecimal =
     {
-      logger.info(s"String for which mean needs to be calculated ["+values+"].")
+      logger.info(s"String for which mean needs to be calculated [" + values + "].")
       var numbers: Array[String] = null
-      var mean:BigDecimal=0.0d
+      var mean: BigDecimal = 0.0d
       try {
         numbers = values.split(", ")
         val sumDetails = aggregateSum.doSumBigDecimalValues(numbers)
-        mean=sumDetails._1/BigDecimal(sumDetails._2)
-        logger.info(s"Mean for ["+values+"] is" + mean + ".")
+        mean = sumDetails._1 / BigDecimal(sumDetails._2)
+        logger.info(s"Mean for [" + values + "] is" + mean + ".")
         mean
       } catch {
-        case numberFormatException: NumberFormatException  => {
+        case numberFormatException: NumberFormatException => {
           logger.error(numberFormatException.printStackTrace())
           throw numberFormatException
         }
-        case arithmeticException:ArithmeticException => {
+        case arithmeticException: ArithmeticException => {
           logger.error(arithmeticException.printStackTrace())
-         throw new ArithmeticException("Exception occured while computing mean.") }
-        case exception: Exception => { 
+          throw new ArithmeticException("Exception occured while computing mean.")
+        }
+        case exception: Exception => {
           logger.error(exception.printStackTrace())
-          throw new Exception("Exception occured while parsing string ["+values+"].") }
+          throw new Exception("Exception occured while parsing string [" + values + "].")
+        }
       }
     }
 
-  //Q) What should be the default value of max function ?
-  def max(values: String): AnyVal =
+  @throws(classOf[Exception])
+  def max(values: String): BigDecimal =
     {
-      0
+      logger.info(s"String for which max needs to be found [" + values + "].")
+      var numbers: Array[String] = null
+      var max: BigDecimal = 0.0d
+      var num: String = ""
+      var index = 0
+      try {
+        numbers = values.split(", ")
+        for (n <- numbers) {
+          if (n.trim.endsWith("d") || n.trim.endsWith("D")) {
+            num = n.trim().dropRight(1)
+          } else {
+            num = n
+          }
+          var tempNumber = BigDecimal(n)
+          if (index == 0) max = tempNumber
+          if (tempNumber > max) {
+            max = tempNumber
+          }
+          index = index + 1
+        }
+        logger.info(s"Max for [" + values + "] is" + max + ".")
+        max
+      } catch {
+        case numberFormatException: NumberFormatException => {
+          logger.error(numberFormatException.printStackTrace())
+          throw numberFormatException
+        }
+        case exception: Exception => {
+          logger.error(exception.printStackTrace())
+          throw new Exception("Exception occured while parsing string [" + values + "].")
+        }
+      }
     }
 
 }
