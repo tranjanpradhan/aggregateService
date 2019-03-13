@@ -1,10 +1,9 @@
 package aggregateservice.scala.actions
 
-import org.apache.log4j.Logger
+import scala.util.control.Exception.allCatch
+import aggregateservice.custom.exceptions._
 
 class AggregateSum extends AggregateSumAction {
-
-  @transient lazy val logger = Logger.getLogger(getClass.getName)
 
   def doSumDoubleValues(values: Array[String]): (Double, Integer) =
     {
@@ -27,16 +26,16 @@ class AggregateSum extends AggregateSumAction {
             throw new NumberTooSmallException(num + ": value is too small for double data type.")
           }
 
-          logger.debug(s"Double Value to be added:-[" + num + "].")
+          println(s"Double Value to be added:-[" + num + "].")
           sum = sum + num.toDouble
-          logger.debug(s"Current sum is:-[" + sum + "].")
+          println(s"Current sum is:-[" + sum + "].")
           size = size + 1
-          logger.debug(s"Number of elements traversed are:-[" + size + "].")
+          println(s"Number of elements traversed are:-[" + size + "].")
         }
       } catch {
         case exception: NumberFormatException => { throw new NumberFormatException("String [" + values(size) + "] cannot be parsed to double.") }
       }
-      logger.info(s"Sum for double values is [" + sum + "] and total number of elements are [" + size + "].")
+      println(s"Sum for double values is [" + sum + "] and total number of elements are [" + size + "].")
       (sum, size)
     }
 
@@ -60,16 +59,16 @@ class AggregateSum extends AggregateSumAction {
             throw new NumberTooSmallException(num + ": value is too small for long data type.")
           }
 
-          logger.debug(s"Long Value to be added:-[" + num + "].")
+          println(s"Long Value to be added:-[" + num + "].")
           sum = sum + num.toLong
-          logger.debug(s"Current sum is:-[" + sum + "].")
+          println(s"Current sum is:-[" + sum + "].")
           size = size + 1
-          logger.debug(s"Number of elements traversed are:-[" + size + "].")
+          println(s"Number of elements traversed are:-[" + size + "].")
         }
       } catch {
         case exception: NumberFormatException => { throw new NumberFormatException("String [" + values(size) + "] cannot be parsed to long.") }
       }
-      logger.info(s"Sum for long values is [" + sum + "] and total number of elements are [" + size + "].")
+      println(s"Sum for long values is [" + sum + "] and total number of elements are [" + size + "].")
       (sum, size)
     }
   
@@ -94,16 +93,16 @@ class AggregateSum extends AggregateSumAction {
             throw new NumberTooSmallException(num + ": value is too small for double data type.")
           }*/
 
-          logger.debug(s"BigDecimal Value to be added:-[" + num + "].")
+          println(s"BigDecimal Value to be added:-[" + num + "].")
           sum = sum + BigDecimal(num)
-          logger.debug(s"Current sum is:-[" + sum + "].")
+          println(s"Current sum is:-[" + sum + "].")
           size = size + 1
-          logger.debug(s"Number of elements traversed are:-[" + size + "].")
+          println(s"Number of elements traversed are:-[" + size + "].")
         }
       } catch {
         case exception: NumberFormatException => { throw new NumberFormatException("String [" + values(size) + "] cannot be parsed to BigDecimal.") }
       }
-      logger.info(s"Sum for bigdecimal values is [" + sum + "] and total number of elements are [" + size + "].")
+      println(s"Sum for bigdecimal values is [" + sum + "] and total number of elements are [" + size + "].")
       (sum, size)
     }
 }

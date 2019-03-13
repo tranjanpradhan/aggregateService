@@ -5,6 +5,7 @@ import org.scalatest.BeforeAndAfter
 import org.scalactic.source.Position.apply
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
+import aggregateservice.custom.exceptions._
 
 @RunWith(classOf[JUnitRunner])
 class AggregateActionBigDecimalTest extends FunSuite with BeforeAndAfter {

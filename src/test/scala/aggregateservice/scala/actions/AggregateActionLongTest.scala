@@ -5,6 +5,9 @@ import org.scalatest.BeforeAndAfter
 import org.scalactic.source.Position.apply
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
+import aggregateservice.custom.exceptions._
+import aggregateservice.custom.exceptions.NumberTooLargeException
+import aggregateservice.custom.exceptions.NumberTooSmallException
 
 @RunWith(classOf[JUnitRunner])
 class aggregateActionLongTest extends FunSuite with BeforeAndAfter {

@@ -5,6 +5,9 @@ import org.scalatest.BeforeAndAfter
 import org.scalactic.source.Position.apply
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
+import aggregateservice.custom.exceptions._
+import aggregateservice.custom.exceptions.NumberTooLargeException
+import aggregateservice.custom.exceptions.NumberTooSmallException
 
 @RunWith(classOf[JUnitRunner])
 class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
@@ -54,7 +57,7 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
     val thrown = intercept[NumberFormatException] {
       aggregateActionDouble.sum("test1, test2, test3")
     }
-    assert(thrown.getMessage === "String [test18] cannot be parsed to double.")
+    assert(thrown.getMessage === "String [test1] cannot be parsed to double.")
   }
 
   test("sum function for double should throw exception when passed empty strings") {
@@ -79,7 +82,7 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
   }
 
   test("sum function for double should throw exception if the string is not ending with \"d\" or \"D\"") {
-    val thrown = intercept[Exception] {
+    val thrown = intercept[NumberFormatException] {
       val sum = aggregateActionDouble.sum("7.5f, 14.5F, 5")
     }
     assert(thrown.getMessage === "String [7.5f] cannot be parsed to double.")
@@ -144,8 +147,8 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
   }
   
   test("mean function for double should throw exception if the string is not ending with \"d\" or \"D\"") {
-    val thrown = intercept[Exception] {
-      val mean = aggregateActionDouble.max("7.5f, 14.5F, 5")
+    val thrown = intercept[NumberFormatException] {
+      val mean = aggregateActionDouble.mean("7.5f, 14.5F, 5")
     }
     assert(thrown.getMessage === "String [7.5f] cannot be parsed to double.")
   }
@@ -167,7 +170,7 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
   }
   
    test("max function for double should identify the max value when some numbers are repeated") {
-    val max = aggregateActionDouble.max("2.0, -1.00, -123.96 ,2.0")
+    val max = aggregateActionDouble.max("2.0, -1.00, -123.96, 2.0")
     assert(max.isInstanceOf[Double] & max == 2.0)
   }
    
@@ -185,14 +188,10 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
     val max = aggregateActionDouble.max(Double.MaxValue+", 123, 5")
     assert(max == Double.MaxValue & max.isInstanceOf[Double])
   }
-  
-  test("max function for double should identify the max value of double") {
-    val max = aggregateActionDouble.max(Double.MaxValue+", 123, 5")
-    assert(max == Double.MaxValue & max.isInstanceOf[Double])
-  }
-  
+    
   test("max function for double should return infinity") {
     val max = aggregateActionDouble.max(Double.MaxValue+", "+Double.PositiveInfinity+", 5")
+    println(max)
     assert(max == Double.PositiveInfinity & max.isInstanceOf[Double])
   }
 
@@ -203,7 +202,7 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
     assert(thrown.getMessage === "String [test1] cannot be parsed to double.")
   }
   
-  test("max function for double should throw exception when passed empty strings") {
+ /* test("max function for double should throw exception when passed empty strings") {
     val thrown = intercept[Exception] {
       aggregateActionDouble.max("")
     }
@@ -225,10 +224,10 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
   }
   
   test("max function for double should throw exception if the string is not ending with \"d\" or \"D\"") {
-    val thrown = intercept[Exception] {
+    val thrown = intercept[NumberFormatException] {
       val max = aggregateActionDouble.max("7.5f, 14.5F, 5")
     }
     assert(thrown.getMessage === "String [7.5f] cannot be parsed to double.")
-  }
+  }*/
   
 }

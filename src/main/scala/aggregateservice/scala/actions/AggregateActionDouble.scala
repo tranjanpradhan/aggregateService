@@ -1,36 +1,39 @@
 package aggregateservice.scala.actions
 
 import scala.util.control.Exception.allCatch
-import org.apache.log4j.Logger
+import aggregateservice.custom.exceptions._
+import aggregateservice.custom.exceptions.NumberTooLargeException
+import aggregateservice.custom.exceptions.NumberTooSmallException
+
 
 class AggregateActionDouble extends AggregateAction {
 
-  @transient lazy val logger = Logger.getLogger(getClass.getName)
-  val aggregateSum: AggregateSum = new AggregateSum
+
+   val aggregateSum: AggregateSum = new AggregateSum
 
   @throws(classOf[Exception])
   def sum(values: String): Double =
     {
-      logger.info(s"String for which sum needs to be calculated [" + values + "].")
+      println(s"String for which sum needs to be calculated [" + values + "].")
       var numbers: Array[String] = null
       try {
         numbers = values.split(", ")
         aggregateSum.doSumDoubleValues(numbers)._1
       } catch {
         case numberFormatException: NumberFormatException => {
-          logger.error(numberFormatException.printStackTrace())
+          println(numberFormatException.printStackTrace())
           throw numberFormatException
         }
         case numberTooLargeException: NumberTooLargeException => {
-          logger.error(numberTooLargeException.printStackTrace())
+          println(numberTooLargeException.printStackTrace())
           throw numberTooLargeException
         }
         case numberTooSmallException: NumberTooSmallException => {
-          logger.error(numberTooSmallException.printStackTrace())
+          println(numberTooSmallException.printStackTrace())
           throw numberTooSmallException
         }
         case exception: Exception => {
-          logger.error(exception.printStackTrace())
+          println(exception.printStackTrace())
           throw new Exception("Exception occured while parsing string [" + values + "].")
         }
       }
@@ -39,34 +42,34 @@ class AggregateActionDouble extends AggregateAction {
   @throws(classOf[Exception])
   def mean(values: String): Double =
     {
-      logger.info(s"String for which mean needs to be calculated [" + values + "].")
+      println(s"String for which mean needs to be calculated [" + values + "].")
       var numbers: Array[String] = null
       var mean: Double = 0.0
       try {
         numbers = values.split(", ")
         val sumDetails = aggregateSum.doSumDoubleValues(numbers)
         mean = sumDetails._1 / sumDetails._2
-        logger.info(s"Mean for [" + values + "] is" + mean + ".")
+        println(s"Mean for [" + values + "] is" + mean + ".")
         mean
       } catch {
         case numberFormatException: NumberFormatException => {
-          logger.error(numberFormatException.printStackTrace())
+          println(numberFormatException.printStackTrace())
           throw numberFormatException
         }
         case numberTooLargeException: NumberTooLargeException => {
-          logger.error(numberTooLargeException.printStackTrace())
+          println(numberTooLargeException.printStackTrace())
           throw numberTooLargeException
         }
         case numberTooSmallException: NumberTooSmallException => {
-          logger.error(numberTooSmallException.printStackTrace())
+          println(numberTooSmallException.printStackTrace())
           throw numberTooSmallException
         }
         case arithmeticException: ArithmeticException => {
-          logger.error(arithmeticException.printStackTrace())
+          println(arithmeticException.printStackTrace())
           throw new ArithmeticException("Exception occured while computing mean.")
         }
         case exception: Exception => {
-          logger.error(exception.printStackTrace())
+          println(exception.printStackTrace())
           throw new Exception("Exception occured while parsing string [" + values + "].")
         }
       }
@@ -75,7 +78,7 @@ class AggregateActionDouble extends AggregateAction {
   @throws(classOf[Exception])
   def max(values: String): Double =
     {
-      logger.info(s"String for which max needs to be found [" + values + "].")
+      println(s"String for which max needs to be found [" + values + "].")
       var numbers: Array[String] = null
       var max: Double = Double.MinValue
       var num: String = ""
@@ -97,23 +100,23 @@ class AggregateActionDouble extends AggregateAction {
             max = tempNumber
           }
         }
-        logger.info(s"Max for [" + values + "] is" + max + ".")
+        println(s"Max for [" + values + "] is" + max + ".")
         max
       } catch {
         case numberFormatException: NumberFormatException => {
-          logger.error(numberFormatException.printStackTrace())
-          throw numberFormatException
+          println(numberFormatException.printStackTrace())
+          throw new NumberFormatException("String  cannot be parsed to double.")
         }
         case numberTooLargeException: NumberTooLargeException => {
-          logger.error(numberTooLargeException.printStackTrace())
+          println(numberTooLargeException.printStackTrace())
           throw numberTooLargeException
         }
         case numberTooSmallException: NumberTooSmallException => {
-          logger.error(numberTooSmallException.printStackTrace())
+          println(numberTooSmallException.printStackTrace())
           throw numberTooSmallException
         }
         case exception: Exception => {
-          logger.error(exception.printStackTrace())
+          println(exception.printStackTrace())
           throw new Exception("Exception occured while parsing string [" + values + "].")
         }
       }
