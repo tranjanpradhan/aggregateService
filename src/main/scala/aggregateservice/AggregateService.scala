@@ -49,6 +49,7 @@ class AggregateService extends Actor with ActorLogging {
           case "max"  => AggregateResponse(Some(Result(doubleAction.max(values).toString)), None)
           case other  => AggregateResponse(None, Some(Error(s"Received unknown aggregate function: $other")))
         }
+        //Added support for bigdecimal
         case "bigdecimal" =>
         val bigDecimalAction = new AggregateActionBigDecimal
         function match {

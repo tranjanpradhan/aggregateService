@@ -1,14 +1,19 @@
 package aggregateservice.scala.actions
 
-import scala.util.control.Exception.allCatch
-
-
 class AggregateActionBigDecimal extends AggregateAction {
-
 
   val aggregateSum: AggregateSum = new AggregateSum
 
-  @throws(classOf[Exception])
+  /**
+   * Method  "sum" takes argument as "values" [String].The method splits the string [", "] and creates a Array[String]
+   * and calls doSumBigDecimalValues method present in AggregateSum class.
+   *
+   * @name sum
+   * @param  values: String
+   * @return  BigDecimal
+   * @exception NumberFormatException,Exception
+   */
+
   def sum(values: String): BigDecimal =
     {
       println(s"String for which sum needs to be calculated [" + values + "].")
@@ -28,7 +33,17 @@ class AggregateActionBigDecimal extends AggregateAction {
       }
     }
 
-  @throws(classOf[Exception])
+  /**
+   * Method  "mean" takes argument as "values" [String].The method splits the string [", "] and creates a Array[String]
+   * and calls doSumBigDecimalValues method present in AggregateSum class.As the doSumBigDecimalValues method returns a tuple,the method
+   * just computes the mean.
+   *
+   * @name mean
+   * @param  values: String
+   * @return  BigDecimal
+   * @exception ArithmeticException,NumberFormatException,Exception
+   */
+
   def mean(values: String): BigDecimal =
     {
       println(s"String for which mean needs to be calculated [" + values + "].")
@@ -56,7 +71,16 @@ class AggregateActionBigDecimal extends AggregateAction {
       }
     }
 
-  @throws(classOf[Exception])
+  /**
+   * Method  "max" takes argument as "values" [String].The method splits the string [", "] and creates a Array[String].
+   * It typecasts each element of the array to BigDecimal and finds the maximum value of the array.
+   *
+   * @name max
+   * @param  values: String
+   * @return  BigDecimal
+   * @exception NumberFormatException,Exception
+   */
+
   def max(values: String): BigDecimal =
     {
       println(s"String for which max needs to be found [" + values + "].")
@@ -82,9 +106,9 @@ class AggregateActionBigDecimal extends AggregateAction {
         println(s"Max for [" + values + "] is " + max + ".")
         max
       } catch {
-         case numberFormatException: NumberFormatException => {
+        case numberFormatException: NumberFormatException => {
           println(numberFormatException.printStackTrace())
-          throw new NumberFormatException("String ["+ num +"] cannot be parsed to big decimal.")
+          throw new NumberFormatException("String [" + num + "] cannot be parsed to big decimal.")
         }
         case exception: Exception => {
           println(exception.printStackTrace())

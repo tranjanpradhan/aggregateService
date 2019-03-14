@@ -1,18 +1,21 @@
 package aggregateservice.scala.actions
 
-import scala.util.control.Exception.allCatch
 import aggregateservice.custom.exceptions._
-import aggregateservice.custom.exceptions.NumberTooLargeException
-import aggregateservice.custom.exceptions.NumberTooSmallException
-
 
 class AggregateActionLong extends AggregateAction {
 
-  
- val aggregateSum: AggregateSum = new AggregateSum
+val aggregateSum: AggregateSum = new AggregateSum
 
+  /**
+   * Method  "sum" takes argument as "values" [String].The method splits the string [", "] and creates a Array[String]
+   * and calls doSumLongValues method present in AggregateSum class.
+   *
+   * @name sum
+   * @param  values: String
+   * @return  Long
+   * @exception NumberTooLargeException,NumberTooSmallException,NumberFormatException,Exception
+   */
 
-  @throws(classOf[Exception])
   def sum(values: String): Long =
     {
       println(s"String for which sum needs to be calculated [" + values + "].")
@@ -40,7 +43,17 @@ class AggregateActionLong extends AggregateAction {
       }
     }
 
-  @throws(classOf[Exception])
+  /**
+   * Method  "mean" takes argument as "values" [String].The method splits the string [", "] and creates a Array[String]
+   * and calls doSumLongValues method present in AggregateSum class.As the doSumLongValues method returns a tuple,the method
+   * just computes the mean.
+   *
+   * @name mean
+   * @param  values: String
+   * @return  Long
+   * @exception ArithmeticException,NumberTooLargeException,NumberTooSmallException,NumberFormatException,Exception
+   */
+
   def mean(values: String): Long =
     {
       println(s"String for which mean needs to be calculated [" + values + "].")
@@ -76,7 +89,17 @@ class AggregateActionLong extends AggregateAction {
       }
     }
 
-  @throws(classOf[Exception])
+  /**
+   * Method  "max" takes argument as "values" [String].The method splits the string [", "] and creates a Array[String].
+   * It typecasts each element of the array to Long and finds the maximum value of the array.
+   *
+   * @name max
+   * @param  values: String
+   * @return  Long
+   * @exception NumberTooLargeException,NumberTooSmallException,NumberFormatException,Exception
+   */
+
+
   def max(values: String): Long =
     {
       println(s"String for which max needs to be found [" + values + "].")
@@ -92,12 +115,12 @@ class AggregateActionLong extends AggregateAction {
           } else {
             num = n
           }
-          
+
           if (BigInt(num) > BigInt(Long.MaxValue)) throw new NumberTooLargeException(num + ": value is too large for long data type.")
           else if (BigInt(num) < BigInt(Long.MinValue)) throw new NumberTooSmallException(num + ": value is too small for long data type.")
 
           var tempNumber = num.toLong
-          
+
           if (tempNumber > max) {
             max = tempNumber
           }
@@ -107,7 +130,7 @@ class AggregateActionLong extends AggregateAction {
       } catch {
         case numberFormatException: NumberFormatException => {
           println(numberFormatException.printStackTrace())
-          throw new NumberFormatException("String ["+ num +"] cannot be parsed to long.")
+          throw new NumberFormatException("String [" + num + "] cannot be parsed to long.")
         }
         case numberTooLargeException: NumberTooLargeException => {
           println(numberTooLargeException.printStackTrace())
