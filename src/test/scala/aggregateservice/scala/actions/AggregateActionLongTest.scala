@@ -18,6 +18,8 @@ class aggregateActionLongTest extends FunSuite with BeforeAndAfter {
     aggregateActionLong = new AggregateActionLong()
   }
 
+  //Unit test cases for sum function
+
   test("sum function for long should return the string itself if it has only one element") {
     val sum = aggregateActionLong.sum("12")
     assert(sum.isInstanceOf[Long] & sum == 12)
@@ -187,6 +189,11 @@ class aggregateActionLongTest extends FunSuite with BeforeAndAfter {
       aggregateActionLong.max("")
     }
     assert(thrown.getMessage === "String [] cannot be parsed to long.")
+  }
+
+  test("max function for long should identify the correct max value of long when there is minimum value of long") {
+    val max = aggregateActionLong.max(Long.MinValue + ", 123, 5")
+    assert(max == 123 & max.isInstanceOf[Long])
   }
 
   test("max function for long should throw exception when numbers are greater than max value of long") {

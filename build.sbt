@@ -19,10 +19,6 @@ libraryDependencies ++= {
 }
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.5"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
-libraryDependencies += "log4j" % "log4j" % "1.2.14"
-libraryDependencies ++= Seq(
-   "junit" % "junit" % "4.8.1" % "test"
-)
-libraryDependencies += "org.mockito" % "mockito-core" % "2.7.19" % Test
+libraryDependencies ++= Seq("junit" % "junit" % "4.8.1" % "test")
 
 seq(Revolver.settings: _*)

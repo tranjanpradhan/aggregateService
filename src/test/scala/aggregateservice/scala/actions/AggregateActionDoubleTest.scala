@@ -18,6 +18,8 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
     aggregateActionDouble = new AggregateActionDouble()
   }
 
+    //Unit test cases for sum
+  
   test("sum function for double should return the string itself if it has only one element") {
     val sum = aggregateActionDouble.sum("12.0")
     assert(sum.isInstanceOf[Double] & sum == 12.0)
@@ -176,17 +178,22 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
 
   test("max function for double should identify the string ending with \"d\" and compute max of Double type") {
     val max = aggregateActionDouble.max("7.8d, 123, 5")
-    assert(max == 123 & max.isInstanceOf[Double])
+    assert(max == 123.0 & max.isInstanceOf[Double])
   }
 
   test("max function for double should identify the string ending with \"D\" and compute max of Double type") {
     val max = aggregateActionDouble.max("7.8D, 123, 5")
-    assert(max == 123 & max.isInstanceOf[Double])
+    assert(max == 123.0 & max.isInstanceOf[Double])
   }
 
   test("max function for double should identify the max value of double") {
     val max = aggregateActionDouble.max(Double.MaxValue + ", 123, 5")
     assert(max == Double.MaxValue & max.isInstanceOf[Double])
+  }
+  
+  test("max function for double should identify the correct max value of double when there is minimum value of double") {
+    val max = aggregateActionDouble.max(Double.MinValue + ", 123, 5")
+    assert(max == 123.0 & max.isInstanceOf[Double])
   }
 
   test("max function for double should throw exception when strings have no numbers") {
@@ -207,7 +214,7 @@ class AggregateActionDoubleTest extends FunSuite with BeforeAndAfter {
     val thrown = intercept[NumberTooLargeException] {
       aggregateActionDouble.max(BigDecimal("2.7976931348623157E+308") + ", 2.0, 5.9")
     }
-    assert(thrown.getMessage === BigDecimal("2.79769313 48623157E+308") + ": value is too large for double data type.")
+    assert(thrown.getMessage === "2.7976931348623157E+308: value is too large for double data type.")
   }
 
   test("max function for double should throw exception when numbers are lesser than min value of double") {
