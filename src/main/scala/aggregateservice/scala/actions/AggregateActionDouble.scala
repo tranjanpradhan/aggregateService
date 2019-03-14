@@ -91,11 +91,12 @@ class AggregateActionDouble extends AggregateAction {
           } else {
             num = n
           }
+          
+
+          if (BigDecimal(num) > BigDecimal(Double.MaxValue)) throw new NumberTooLargeException(num + ": value is too large for double data type.")
+          else if (BigDecimal(num) < BigDecimal(Double.MinValue)) throw new NumberTooSmallException(num + ": value is too small for double data type.")
+
           var tempNumber = n.toDouble
-
-          if (BigDecimal(tempNumber) > BigDecimal(Double.MaxValue)) throw new NumberTooLargeException(tempNumber + ": value is too large for double data type.")
-          else if (BigDecimal(tempNumber) < BigDecimal(Double.MinValue)) throw new NumberTooSmallException(tempNumber + ": value is too small for double data type.")
-
           if (tempNumber > max) {
             max = tempNumber
           }
@@ -105,7 +106,7 @@ class AggregateActionDouble extends AggregateAction {
       } catch {
         case numberFormatException: NumberFormatException => {
           println(numberFormatException.printStackTrace())
-          throw new NumberFormatException("String  cannot be parsed to double.")
+          throw new NumberFormatException("String ["+ num +"] cannot be parsed to double.")
         }
         case numberTooLargeException: NumberTooLargeException => {
           println(numberTooLargeException.printStackTrace())

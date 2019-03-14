@@ -70,21 +70,21 @@ class AggregateActionBigDecimal extends AggregateAction {
           if (n.trim.endsWith("d") || n.trim.endsWith("D")) {
             num = n.trim().dropRight(1)
           } else {
-            num = n
+            num = n.trim()
           }
-          var tempNumber = BigDecimal(n)
+          var tempNumber = BigDecimal(num)
           if (index == 0) max = tempNumber
           if (tempNumber > max) {
             max = tempNumber
           }
           index = index + 1
         }
-        println(s"Max for [" + values + "] is" + max + ".")
+        println(s"Max for [" + values + "] is " + max + ".")
         max
       } catch {
-        case numberFormatException: NumberFormatException => {
+         case numberFormatException: NumberFormatException => {
           println(numberFormatException.printStackTrace())
-          throw numberFormatException
+          throw new NumberFormatException("String ["+ num +"] cannot be parsed to big decimal.")
         }
         case exception: Exception => {
           println(exception.printStackTrace())

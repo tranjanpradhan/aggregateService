@@ -1,4 +1,4 @@
-package aggregateservice
+ package aggregateservice
 
 import aggregateservice.scala.actions._
 import akka.actor.{Actor, ActorLogging}

@@ -92,11 +92,12 @@ class AggregateActionLong extends AggregateAction {
           } else {
             num = n
           }
-          var tempNumber = n.toLong
-
+          
           if (BigInt(num) > BigInt(Long.MaxValue)) throw new NumberTooLargeException(num + ": value is too large for long data type.")
           else if (BigInt(num) < BigInt(Long.MinValue)) throw new NumberTooSmallException(num + ": value is too small for long data type.")
 
+          var tempNumber = num.toLong
+          
           if (tempNumber > max) {
             max = tempNumber
           }
@@ -106,7 +107,7 @@ class AggregateActionLong extends AggregateAction {
       } catch {
         case numberFormatException: NumberFormatException => {
           println(numberFormatException.printStackTrace())
-          throw numberFormatException
+          throw new NumberFormatException("String ["+ num +"] cannot be parsed to long.")
         }
         case numberTooLargeException: NumberTooLargeException => {
           println(numberTooLargeException.printStackTrace())
